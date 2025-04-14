@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import Car from "./Car";
-import Data from './assets/vehicles_dataset.json';
+import Data from "./assets/vehicles_dataset.json";
+import CarDetails from "./CarDetails";
 
 function App() {
   const [carsPerPage, setCarsPerPage] = useState(10);
   const totalCars = Data.length;
   const [currentPage, setCurrentPage] = useState(0);
 
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+
   const startIndex = currentPage * carsPerPage;
   const endIndex = startIndex + carsPerPage;
-
   const carsToDisplay = Data.slice(startIndex, endIndex);
 
   const handleNextPage = () => {
@@ -29,28 +32,61 @@ function App() {
     setCurrentPage(0);
   };
 
+  const openDetails = (car) => {
+    setSelectedCar(car);
+    setShowDetails(true);
+  };
+
+  const closeDetails = () => {
+    setShowDetails(false);
+    setSelectedCar(null);
+  };
+
   return (
-    <div style={{ display: 'grid', placeItems: 'center', width: '100%', paddingBottom: '50px' }}>
+    <div
+      style={{
+        display: "grid",
+        placeItems: "center",
+        width: "100%",
+        paddingBottom: "50px",
+      }}
+    >
       {carsToDisplay.map((car, index) => (
-        <Car key={startIndex + index} {...car} />
+        <div key={startIndex + index}>
+          <Car {...car} />
+          <button
+            onClick={() => openDetails(car)}
+            style={{ marginTop: "10px", marginBottom: "20px" }}
+          >
+            Show Info
+          </button>
+          <hr style={{ marginTop: "10px", marginBottom: "20px" }} />
+        </div>
       ))}
 
+      {/* Details */}
+      {showDetails && selectedCar && (
+        <CarDetails car={selectedCar} onClose={closeDetails} />
+      )}
+
       {/* Pagination controls */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        backgroundColor: 'chocolate',
-        padding: '10px 0', 
-        boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)'
-      }}>
-        <select 
-          value={carsPerPage} 
-          onChange={handleCarsPerPageChange} 
-          style={{ padding: '5px', marginRight: '20px' }}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "chocolate",
+          padding: "10px 0",
+          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <select
+          value={carsPerPage}
+          onChange={handleCarsPerPageChange}
+          style={{ padding: "5px", marginRight: "20px" }}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
@@ -61,10 +97,13 @@ function App() {
         <button onClick={handlePreviousPage} disabled={currentPage === 0}>
           Previous
         </button>
-        <span style={{ margin: '0 10px' }}>
+        <span style={{ margin: "0 10px" }}>
           Page {currentPage + 1} of {Math.ceil(totalCars / carsPerPage)}
         </span>
-        <button onClick={handleNextPage} disabled={currentPage >= Math.floor(totalCars / carsPerPage) - 1}>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage >= Math.floor(totalCars / carsPerPage) - 1}
+        >
           Next
         </button>
       </div>

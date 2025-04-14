@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import carPlaceholder from "./assets/car.png";
 
-function CarDetails({ car, onClose }) {
-  
+function CarDetails({ car, onClose, onToggleFavourite }) {
   const modalRef = useRef();
 
   useEffect(() => {
@@ -20,8 +19,7 @@ function CarDetails({ car, onClose }) {
       onClose();
     }
   };
-  
-  
+
   if (!car) return null;
 
   return (
@@ -122,6 +120,20 @@ function CarDetails({ car, onClose }) {
             <li key={index}>{item}</li>
           ))}
         </ul>
+
+        <button
+          onClick={onToggleFavourite}
+          style={{
+            backgroundColor: car.favourite ? "#f1c40f" : "#ccc",
+            padding: "8px 12px",
+            marginBottom: "15px",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          {car.favourite ? "★ Unfavourite" : "☆ Favourite"}
+        </button>
       </div>
     </div>
   );

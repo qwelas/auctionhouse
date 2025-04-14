@@ -9,6 +9,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [selectedCar, setSelectedCar] = useState(null);
+  const [selectedCarIndex, setSelectedCarIndex] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
 
   const startIndex = currentPage * carsPerPage;
@@ -32,14 +33,39 @@ function App() {
     setCurrentPage(0);
   };
 
-  const openDetails = (car) => {
+  const openDetails = (car, index) => {
     setSelectedCar(car);
+    setSelectedCarIndex(index);
     setShowDetails(true);
   };
+  
 
   const closeDetails = () => {
     setShowDetails(false);
     setSelectedCar(null);
+  };
+
+  const toggleFavourite = async (index) => {
+    try {
+      const response = await fetch("http://localhost:5000/toggle-favourite", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ index }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        Data[index].favourite = result.updatedCar.favourite;
+        setSelectedCar({ ...result.updatedCar });
+        setCurrentPage(currentPage);
+      } else {
+        console.error("Failed to toggle favourite");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -63,12 +89,14 @@ function App() {
             }}
           >
             <button
-              onClick={() => openDetails(car)}
+              onClick={() => openDetails(car, startIndex + index)}
               style={{ marginTop: "10px", marginBottom: "10px" }}
             >
               Show Info
             </button>
-            <div>Fav</div>
+            <button onClick={() => toggleFavourite(startIndex + index)}>
+              {car.favourite ? "★ Fav" : "☆ Fav"}
+            </button>
           </div>
           <hr style={{ marginTop: "10px", marginBottom: "20px" }} />
         </div>
@@ -76,7 +104,11 @@ function App() {
 
       {/* Details */}
       {showDetails && selectedCar && (
-        <CarDetails car={selectedCar} onClose={closeDetails} />
+        <CarDetails
+          car={selectedCar}
+          onClose={closeDetails}
+          onToggleFavourite={() => toggleFavourite(selectedCarIndex)}
+        />
       )}
 
       {/* Pagination controls */}

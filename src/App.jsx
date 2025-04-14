@@ -54,12 +54,22 @@ function App() {
       {carsToDisplay.map((car, index) => (
         <div key={startIndex + index}>
           <Car {...car} />
-          <button
-            onClick={() => openDetails(car)}
-            style={{ marginTop: "10px", marginBottom: "20px" }}
+          <div
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
           >
-            Show Info
-          </button>
+            <button
+              onClick={() => openDetails(car)}
+              style={{ marginTop: "10px", marginBottom: "10px" }}
+            >
+              Show Info
+            </button>
+            <div>Fav</div>
+          </div>
           <hr style={{ marginTop: "10px", marginBottom: "20px" }} />
         </div>
       ))}
@@ -107,6 +117,7 @@ function App() {
           Next
         </button>
       </div>
+      {/* --------------*/}
     </div>
   );
 }

@@ -1,12 +1,33 @@
-# React + Vite
+# Implementation Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The goal of this implementation was to create a page that can be easily integrated into a website. It is not intended to represent a full website.
 
-Currently, two official plugins are available:
+## Requirements:
+- Install Node.js: [https://nodejs.org/](https://nodejs.org/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup Instructions:
 
-## Expanding the ESLint configuration
+1. Run the following command to install the necessary dependencies:
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Start the backend from the `src` folder:
+   ```bash
+   node server.cjs
+   ```
+
+3. Start the frontend from the project root folder:
+   ```bash
+   npm run dev
+   ```
+
+4. Access the site at:
+   [http://localhost:5173/](http://localhost:5173/)
+
+## Things I would like to improve, add, or change:
+
+- **Optimize the Time Remaining calculation:** The current method is not very performance-efficient.
+- **Add a responsive design framework:** Implement Bootstrap or another mobile-responsive library to make the page fully responsive.
+- **Improve backend interaction:** Currently, the frontend loads without receiving data from the backend at the start. The backend should handle everything, and the frontend should fetch data accordingly.
+- **Add testing:** Introduce testing for both frontend and backend to ensure stability and functionality.

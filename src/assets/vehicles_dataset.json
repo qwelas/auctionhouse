@@ -6,9 +6,9 @@
     "fuel": "diesel",
     "year": 2022,
     "mileage": 743,
-    "auctionDateTime": "2024/04/15 09:00:00",
+    "auctionDateTime": "2025/05/15 09:00:00",
     "startingBid": 17000,
-    "favourite": true,
+    "favourite": false,
     "details": {
       "specification": {
         "vehicleType": "Car",
@@ -43,9 +43,9 @@
     "fuel": "petrol",
     "year": 2022,
     "mileage": 9084,
-    "auctionDateTime": "2024/04/15 09:00:00",
+    "auctionDateTime": "2025/05/30 11:00:00",
     "startingBid": 15000,
-    "favourite": false,
+    "favourite": true,
     "details": {
       "specification": {
         "vehicleType": "Car",
@@ -80,9 +80,9 @@
     "fuel": "diesel",
     "year": 2020,
     "mileage": 17293,
-    "auctionDateTime": "2024/04/15 09:00:00",
+    "auctionDateTime": "2025/04/15 09:00:00",
     "startingBid": 15000,
-    "favourite": false,
+    "favourite": true,
     "details": {
       "specification": {
         "vehicleType": "Car",
@@ -119,7 +119,7 @@
     "mileage": 5025,
     "auctionDateTime": "2024/04/15 09:00:00",
     "startingBid": 17000,
-    "favourite": true,
+    "favourite": false,
     "details": {
       "specification": {
         "vehicleType": "Car",
@@ -193,7 +193,7 @@
     "mileage": 6375,
     "auctionDateTime": "2024/04/15 09:00:00",
     "startingBid": 16000,
-    "favourite": true,
+    "favourite": false,
     "details": {
       "specification": {
         "vehicleType": "Car",
@@ -267,7 +267,7 @@
     "mileage": 8051,
     "auctionDateTime": "2024/04/15 09:00:00",
     "startingBid": 16000,
-    "favourite": false,
+    "favourite": true,
     "details": {
       "specification": {
         "vehicleType": "Car",

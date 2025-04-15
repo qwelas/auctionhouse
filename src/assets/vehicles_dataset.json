@@ -45,7 +45,7 @@
     "mileage": 9084,
     "auctionDateTime": "2025/05/30 11:00:00",
     "startingBid": 15000,
-    "favourite": false,
+    "favourite": true,
     "details": {
       "specification": {
         "vehicleType": "Car",

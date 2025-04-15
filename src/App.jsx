@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Car from "./Car";
 import Data from "./assets/vehicles_dataset.json";
 import CarDetails from "./CarDetails";
+import "./App.css";
 
 function App() {
   const [carsPerPage, setCarsPerPage] = useState(10);
@@ -12,7 +13,7 @@ function App() {
   const startIndex = currentPage * carsPerPage;
   const endIndex = startIndex + carsPerPage;
   const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); // or "desc"
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const handleNextPage = () => {
     if (currentPage < Math.floor(totalCars / carsPerPage)) {
@@ -124,38 +125,18 @@ function App() {
   }, [filterMake, filterModel, filterMinBid, filterMaxBid, showFavouritesOnly]);
 
   return (
-    <div
-      style={{
-        display: "grid",
-        placeItems: "center",
-        width: "100%",
-        paddingBottom: "50px",
-      }}
-    >
+    <div className="app-container">
       {/* Sort and filter */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "chocolate",
-          padding: "10px 0",
-          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
+      <div className="fixed-toolbar">
         <div>
-          {/* Sort */}
-          <div style={{ marginRight: "20px" }}>
-            <label style={{ color: "white", marginRight: "5px", fontWeight: "bold"}}>
+          <div className="sort-section">
+            <label className="label-white-bold">
               Sort by:
             </label>
             <select
               value={sortField || ""}
               onChange={(e) => setSortField(e.target.value || null)}
-              style={{ padding: "5px" }}
+              className="input-field"
             >
               <option value="">None</option>
               <option value="make">Make</option>
@@ -168,13 +149,7 @@ function App() {
               onClick={() =>
                 setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
               }
-              style={{
-                marginLeft: "10px",
-                padding: "5px",
-                backgroundColor: "transparent",
-                border: "0",
-                cursor: "pointer",
-              }}
+              className="button-icon"
             >
               {sortOrder === "asc" ? "⬆️" : "⬇️"}
             </button>
@@ -182,9 +157,8 @@ function App() {
         </div>
 
         <div>
-          {/* Filter */}
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <label style={{ color: "white", marginRight: "5px", fontWeight: "bold" }}>
+          <div className="filter-section">
+            <label className="label-white-bold">
               Filter by:
             </label>
             <input
@@ -192,70 +166,63 @@ function App() {
               placeholder="Make"
               value={filterMake}
               onChange={(e) => setFilterMake(e.target.value)}
-              style={{ padding: "5px" }}
+              className="input-field"
             />
             <input
               type="text"
               placeholder="Model"
               value={filterModel}
               onChange={(e) => setFilterModel(e.target.value)}
-              style={{ padding: "5px" }}
+              className="input-field"
             />
             <input
               type="number"
               placeholder="Min Bid"
               value={filterMinBid}
               onChange={(e) => setFilterMinBid(e.target.value)}
-              style={{ padding: "5px", width: "80px" }}
+              className="input-field small"
             />
             <input
               type="number"
               placeholder="Max Bid"
               value={filterMaxBid}
               onChange={(e) => setFilterMaxBid(e.target.value)}
-              style={{ padding: "5px", width: "80px" }}
+              className="input-field small"
             />
-            <label style={{ color: "white" }}>
+            <label className="label-white">
               <input
                 type="checkbox"
                 checked={showFavouritesOnly}
                 onChange={(e) => setShowFavouritesOnly(e.target.checked)}
-                style={{ marginRight: "5px" }}
               />
               Favourites only
             </label>
           </div>
         </div>
       </div>
-      {/* --------------*/}
 
-      <div style={{ marginTop: "50px", marginBottom: "20px" }} />
+      <div className="top-spacing" />
       {carsToDisplay.map((car, index) => (
         <div key={startIndex + index}>
           <Car {...car} />
-          <div
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
+          <div className="action-group">
             <button
               onClick={() => openDetails(car, startIndex + index)}
-              style={{ marginTop: "10px", marginBottom: "10px" }}
+              className="action-button"
             >
               Show Info
             </button>
-            <button onClick={() => toggleFavourite(startIndex + index)}>
+            <button
+              onClick={() => toggleFavourite(startIndex + index)}
+              className="action-button"
+            >
               {car.favourite ? "★ Fav" : "☆ Fav"}
             </button>
           </div>
-          <hr style={{ marginTop: "10px", marginBottom: "20px" }} />
+          <hr className="divider" />
         </div>
       ))}
 
-      {/* Details */}
       {showDetails && selectedCar && (
         <CarDetails
           car={selectedCar}
@@ -264,24 +231,11 @@ function App() {
         />
       )}
 
-      {/* Pagination controls */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "chocolate",
-          padding: "10px 0",
-          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
+      <div className="fixed-pagination">
         <select
           value={carsPerPage}
           onChange={handleCarsPerPageChange}
-          style={{ padding: "5px", marginRight: "20px" }}
+          className="input-field"
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
@@ -292,7 +246,7 @@ function App() {
         <button onClick={handlePreviousPage} disabled={currentPage === 0}>
           Previous
         </button>
-        <span style={{ margin: "0 10px" }}>
+        <span className="page-info">
           Page {currentPage + 1} of {Math.ceil(totalCars / carsPerPage)}
         </span>
         <button
@@ -302,7 +256,6 @@ function App() {
           Next
         </button>
       </div>
-      {/* --------------*/}
     </div>
   );
 }

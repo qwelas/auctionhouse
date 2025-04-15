@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import carPlaceholder from "./assets/car.png";
+import "./CarDetails.css";
 
 function CarDetails({ car, onClose, onToggleFavourite }) {
   const modalRef = useRef();
@@ -23,68 +24,20 @@ function CarDetails({ car, onClose, onToggleFavourite }) {
   if (!car) return null;
 
   return (
-    <div
-      onClick={handleClickOutside}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        ref={modalRef}
-        style={{
-          display: "grid",
-          placeItems: "center",
-          backgroundColor: "black",
-          padding: "20px",
-          borderRadius: "8px",
-          width: "50%",
-          position: "relative",
-          boxShadow: "0px 4px 12px rgba(0,0,0,0.3)",
-          maxHeight: "90vh",
-          overflowY: "auto",
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            border: "none",
-            background: "none",
-            fontSize: "18px",
-            cursor: "pointer",
-          }}
-        >
-          ✖
-        </button>
+    <div className="modal-overlay" onClick={handleClickOutside}>
+      <div ref={modalRef} className="modal-content">
+        <button onClick={onClose} className="close-button">✖</button>
 
-        {/* Should the field not show if there it not defined or should a placeholder value like "N/A" be used? */}
-        <img
-          src={carPlaceholder}
-          alt="Car Image Placeholder"
-          width="100%"
-          height="100%"
-          style={{ maxWidth: "400px", maxHeight: "400px" }}
-        />
+        <img src={carPlaceholder} alt="Car Image Placeholder" className="car-image" />
         <h2>
           {car.make} {car.model}
         </h2>
+
         <ul>
           <li>Year: {car.year}</li>
           <li>Mileage: {car.mileage} km</li>
           <li>Auction Date: {car.auctionDateTime}</li>
           <li>Starting Bid: {car.startingBid} €</li>
-          {/* Todo make time remaining function global*/}
           <li>Time Remaining: {car.timeRemaining}</li>
           <li>Engine Size: {car.engineSize}</li>
           <li>Fuel: {car.fuel}</li>
@@ -99,9 +52,7 @@ function CarDetails({ car, onClose, onToggleFavourite }) {
           <li>Transmission: {car.details?.specification?.transmission}</li>
           <li>Doors: {car.details?.specification?.numberOfDoors}</li>
           <li>CO₂ Emissions: {car.details?.specification?.co2Emissions}</li>
-          <li>
-            NOx Emissions: {car.details?.specification?.noxEmissions} mg/km
-          </li>
+          <li>NOx Emissions: {car.details?.specification?.noxEmissions} mg/km</li>
           <li>Number of Keys: {car.details?.specification?.numberOfKeys}</li>
         </ul>
 
@@ -109,9 +60,7 @@ function CarDetails({ car, onClose, onToggleFavourite }) {
         <ul>
           <li>Log Book: {car.details?.ownership?.logBook}</li>
           <li>Number of Owners: {car.details?.ownership?.numberOfOwners}</li>
-          <li>
-            Date of Registration: {car.details?.ownership?.dateOfRegistration}
-          </li>
+          <li>Date of Registration: {car.details?.ownership?.dateOfRegistration}</li>
         </ul>
 
         <h3>Equipment</h3>
@@ -121,17 +70,7 @@ function CarDetails({ car, onClose, onToggleFavourite }) {
           ))}
         </ul>
 
-        <button
-          onClick={onToggleFavourite}
-          style={{
-            backgroundColor: car.favourite ? "#f1c40f" : "#ccc",
-            padding: "8px 12px",
-            marginBottom: "15px",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={onToggleFavourite} className={`favourite-button ${car.favourite ? "favourite" : ""}`}>
           {car.favourite ? "★ Unfavourite" : "☆ Favourite"}
         </button>
       </div>

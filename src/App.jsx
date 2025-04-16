@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Car from "./Car";
-import Data from "./assets/vehicles_dataset.json";
+//import Data from "./assets/vehicles_dataset.json";
 import CarDetails from "./CarDetails";
 import "./App.css";
 
@@ -14,6 +14,29 @@ function App() {
   const endIndex = startIndex + carsPerPage;
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+
+  const [data, setData] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/cars");
+      if (!response.ok) throw new Error("Failed to fetch vehicle data");
+      const vehicles = await response.json();
+      setData(vehicles);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
+
 
   const handleNextPage = () => {
     if (currentPage < Math.floor(totalCars / carsPerPage)) {
@@ -52,12 +75,23 @@ function App() {
         },
         body: JSON.stringify({ index }),
       });
-
+  
       if (response.ok) {
         const result = await response.json();
-        Data[index].favourite = result.updatedCar.favourite;
-        setSelectedCar({ ...result.updatedCar });
-        setCurrentPage(currentPage);
+        const updatedCar = result.updatedCar;
+  
+        // Update the data state
+        setData((prevData) => {
+          const updatedData = [...prevData];
+          updatedData[index] = updatedCar; // Replace the car at the given index
+          return updatedData;
+        });
+  
+        // Update selectedCar too if it's the one we're modifying
+        if (selectedCarIndex === index) {
+          setSelectedCar(updatedCar);
+        }
+  
       } else {
         console.error("Failed to toggle favourite");
       }
@@ -65,6 +99,7 @@ function App() {
       console.error("Error:", error);
     }
   };
+  
 
   const [filterMake, setFilterMake] = useState("");
   const [filterModel, setFilterModel] = useState("");
@@ -72,7 +107,7 @@ function App() {
   const [filterMaxBid, setFilterMaxBid] = useState("");
   const [showFavouritesOnly, setShowFavouritesOnly] = useState(false);
 
-  const filteredData = Data.filter((car) => {
+  const filteredData = data.filter((car) => {
     const matchesMake =
       !filterMake || car.make.toLowerCase().includes(filterMake.toLowerCase());
     const matchesModel =

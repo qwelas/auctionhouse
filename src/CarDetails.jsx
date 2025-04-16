@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import carPlaceholder from "./assets/car.png";
 import "./CarDetails.css";
+import timeRemainingCalc from "./timeRemainingCalc";
 
 function CarDetails({ car, onClose, onToggleFavourite }) {
   const modalRef = useRef();
+  const timeRemaining = timeRemainingCalc(car.auctionDateTime);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -38,7 +40,7 @@ function CarDetails({ car, onClose, onToggleFavourite }) {
           <li>Mileage: {car.mileage} km</li>
           <li>Auction Date: {car.auctionDateTime}</li>
           <li>Starting Bid: {car.startingBid} €</li>
-          <li>Time Remaining: {car.timeRemaining}</li>
+          <li>Time Remaining: {timeRemaining}</li>
           <li>Engine Size: {car.engineSize}</li>
           <li>Fuel: {car.fuel}</li>
           <li>Favourite: {car.favourite ? "Yes" : "No"}</li>

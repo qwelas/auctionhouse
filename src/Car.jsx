@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import carPlaceholder from "./assets/car.png";
 import "./Car.css";
+import timeRemainingCalc from "./timeRemainingCalc";
 
 function Car({
   make = "Unknown",
@@ -10,27 +11,7 @@ function Car({
   auctionDateTime = "Unknown",
   startingBid = "Unknown",
 }) {
-  const [timeRemaining, setTimeRemaining] = useState("");
-
-  useEffect(() => {
-    const auctionDate = new Date(auctionDateTime);
-    const interval = setInterval(() => {
-      const now = new Date();
-      const timeDiff = auctionDate - now;
-
-      if (timeDiff < 0) {
-        setTimeRemaining("Over!");
-      } else {
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-        setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [auctionDateTime]);
+  const timeRemaining = timeRemainingCalc(auctionDateTime);
 
   return (
     <div>
